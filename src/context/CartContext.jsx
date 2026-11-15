@@ -1,8 +1,21 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
+
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
-    const [cartItems, setCartItems] = useState([]);
+    const [cartItems, setCartItems] = useState(() => {
+        const savedCart = localStorage.getItem('cartItems');
+
+        try {
+            return savedCart ? JSON.parse(savedCart) : [];
+        } catch {
+            return [];
+        }
+    });
+
+    useEffect(() => {
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    }, [cartItems]);
 
     function addToCart(product) {
         setCartItems(previousItems => {
@@ -12,17 +25,18 @@ export function CartProvider({ children }) {
 
             if (existingItem) {
                 return previousItems.map(item =>
-                    item.id === product.id 
+                    item.id === product.id
                         ? { ...item, quantity: item.quantity + 1 }
                         : item
                 );
             }
+
             return [...previousItems, { ...product, quantity: 1 }];
         });
     }
 
     function removeFromCart(productId) {
-        setCartItems(previousItems => 
+        setCartItems(previousItems =>
             previousItems.filter(item => item.id !== productId)
         );
     }
@@ -34,13 +48,13 @@ export function CartProvider({ children }) {
 
     return (
         <CartContext.Provider
-        value={{ cartItems, addToCart, removeFromCart, cartCount }}
+            value={{ cartItems, addToCart, removeFromCart, cartCount }}
         >
             {children}
         </CartContext.Provider>
     );
 }
 
-export function useCart(){
+export function useCart() {
     return useContext(CartContext);
 }
