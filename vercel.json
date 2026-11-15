@@ -1,0 +1,8 @@
+{
+    "rewrites": [
+        {
+            "source": "/api/vantaspec/:path*",
+            "destination": "https://vantaspec.com/api/:path*"
+        }
+    ]
+}
