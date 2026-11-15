@@ -11,9 +11,11 @@ import AboutPage from './pages/AboutPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 import './App.css';
+import { CartProvider } from './context/CartContext';
 
 function App() {
     return (
+    <CartProvider>
         <BrowserRouter>
             <div className="app-container">
 
@@ -59,6 +61,7 @@ function App() {
 
             </div>
         </BrowserRouter>
+    </CartProvider>
     );
 }
 

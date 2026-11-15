@@ -1,8 +1,28 @@
 
+import { useState, useEffect } from 'react';
 import Hero from '../components/Hero';
 import ProductCard from '../components/ProductCard';
+import { fetchProducts } from '../services/productService';
 
 function HomePage() {
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+        async function loadProducts() {
+            try {
+                const data = await fetchProducts();
+                setProducts(data.slice(0, 3));
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+        loadProducts();
+    }, []);
+
     return (
         <main>
             <Hero
@@ -13,28 +33,41 @@ function HomePage() {
 
             <h2>Featured Components</h2>
 
-            <div className="product-list">
-                <ProductCard
-                    name="AMD Ryzen 7 7800X3D"
-                    price="349.99"
-                    image="https://placehold.co/600x400"
-                    description="High-performance gaming CPU with 8 cores and 16 threads."
-                />
+            {loading && <p>Loading featured components...</p>}
 
-                <ProductCard
-                    name="NVIDIA GeForce RTX 4070"
-                    price="549.99"
-                    image="https://placehold.co/600x400"
-                    description="Powerful graphics card for gaming and high-quality PC performance."
-                />
+            {error && <p>Error loading products: {error}</p>}
 
-                <ProductCard
-                    name="Corsair Vengeance 32GB DDR5"
-                    price="89.99"
-                    image="https://placehold.co/600x400"
-                    description="32GB DDR5 memory kit for gaming and productivity."
-                />
-            </div>
+            {!loading && !error && (
+                <div className="product-list">
+                    {products.map(product => {
+                        const price = product.prices?.[0];
+
+                        return (
+                            <ProductCard
+                                key={product.id}
+                                name={product.displayName || product.name}
+                                price={
+                                    price
+                                        ? new Intl.NumberFormat('en-US', {
+                                            style: 'currency',
+                                            currency: 'USD'
+                                        }).format(price.price * 1.30)
+                                        : 'Price unavailable'
+                                }
+                                /* price 
+                                    ? `${price.currency} ${price.price.toFixed(2)}`
+                                    : 'Price unavailable'    
+                                ADDED HARD CODED CONVERSION TO USD */
+                                image={
+                                    product.imageUrl ||
+                                    'https://placehold.co/600x400'
+                                }
+                                description={`${product.brand || ''} ${product.category?.name || 'PC Component'}`}
+                            />
+                        );
+                    })}
+                </div>
+            )}
         </main>
     );
 }

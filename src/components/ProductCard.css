@@ -1,41 +1,45 @@
-
 .product-card {
     width: 300px;
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 16px;
     margin: 16px;
-    background-color: white;
+    background-color: #ffffff;
+    color: #222222;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
 }
 
 .product-image {
     width: 100%;
     height: 200px;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 6px;
 }
 
 .product-info {
     padding-top: 12px;
+    color: #222222;
 }
 
 .product-info h2 {
     margin: 0 0 8px;
     font-size: 20px;
+    color: #222222;
 }
 
 .product-info p {
     margin: 8px 0;
     line-height: 1.5;
+    color: #444444;
 }
 
 .product-info p:nth-of-type(1) {
     font-size: 18px;
     font-weight: bold;
+    color: #111111;
 }
 
 .product-info p:nth-of-type(2) {
-    color: #555;
+    color: #555555;
 }
-

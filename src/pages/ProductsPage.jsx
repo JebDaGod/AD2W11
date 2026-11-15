@@ -1,46 +1,81 @@
 
+import { useState, useEffect } from 'react';
 import ProductCard from '../components/ProductCard';
+import { fetchProducts } from '../services/productService';
 
 function ProductsPage() {
-    const products = [
-        {
-            id: 1,
-            name: 'AMD Ryzen 7 7800X3D',
-            price: '349.99',
-            image: 'https://placehold.co/600x400',
-            description: 'High-performance gaming CPU with 8 cores and 16 threads.'
-        },
-        {
-            id: 2,
-            name: 'NVIDIA GeForce RTX 4070',
-            price: '549.99',
-            image: 'https://placehold.co/600x400',
-            description: 'Powerful graphics card for gaming and high-quality PC performance.'
-        },
-        {
-            id: 3,
-            name: 'Corsair Vengeance 32GB DDR5',
-            price: '89.99',
-            image: 'https://placehold.co/600x400',
-            description: '32GB DDR5 memory kit designed for modern gaming and productivity PCs.'
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+        async function loadProducts() {
+            try {
+                const data = await fetchProducts();
+                setProducts(data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
         }
-    ];
+
+        loadProducts();
+    }, []);
+
+    if (loading) {
+        return (
+            <main>
+                <h2>PC Components</h2>
+                <p>Loading components...</p>
+            </main>
+        );
+    }
+
+    if (error) {
+        return (
+            <main>
+                <h2>PC Components</h2>
+                <p>{error}</p>
+                <p>Please try again later.</p>
+            </main>
+        );
+    }
 
     return (
         <main>
-            <h2>Our PC Components</h2>
-            <p>Explore our selection of computer hardware.</p>
+            <h2>PC Components</h2>
+            <p>Browse our selection of computer hardware.</p>
 
             <div className="product-list">
-                {products.map(product => (
-                    <ProductCard
-                        key={product.id}
-                        name={product.name}
-                        price={product.price}
-                        image={product.image}
-                        description={product.description}
-                    />
-                ))}
+                {products.map(product => {
+                    const price = product.prices?.[0];
+
+                    return (
+                        <ProductCard
+                            key={product.id}
+                            id={product.id}
+                            name={product.displayName || product.name}
+                            price={
+                                price
+                                    ? new Intl.NumberFormat('en-US', {
+                                        style: 'currency',
+                                        currency: 'USD'
+                                    }).format(price.price * 1.30)
+                                    : 'Price unavailable'
+                                /* price 
+                                ? `${price.currency} ${price.price.toFixed(2)}`
+                                : 'Price unavailable'    
+                            ADDED HARD CODED CONVERSION TO USD */
+                            }
+                            image={
+                                product.imageUrl ||
+                                'https://placehold.co/600x400'
+                            }
+                            description={`${product.brand || ''} ${product.category?.name || 'PC Component'}`}
+                        />
+                    );
+                })}
             </div>
         </main>
     );
