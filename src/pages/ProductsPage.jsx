@@ -1,3 +1,4 @@
+
 import ProductCard from '../components/ProductCard';
 
 function ProductsPage() {
@@ -5,35 +6,39 @@ function ProductsPage() {
         {
             id: 1,
             name: 'AMD Ryzen 7 7800X3D',
-            price: 349.99,
-            description: 'High-performance gaming processor.',
-            image: 'https://placehold.co/300x200'
+            price: '349.99',
+            image: 'https://placehold.co/600x400',
+            description: 'High-performance gaming CPU with 8 cores and 16 threads.'
         },
         {
             id: 2,
-            name: 'NVIDIA RTX 4070',
-            price: 549.99,
-            description: 'Powerful graphics card for gaming.',
-            image: 'https://placehold.co/300x200'
+            name: 'NVIDIA GeForce RTX 4070',
+            price: '549.99',
+            image: 'https://placehold.co/600x400',
+            description: 'Powerful graphics card for gaming and high-quality PC performance.'
         },
         {
             id: 3,
             name: 'Corsair Vengeance 32GB DDR5',
-            price: 89.99,
-            description: 'Fast DDR5 memory for your PC.',
-            image: 'https://placehold.co/300x200'
+            price: '89.99',
+            image: 'https://placehold.co/600x400',
+            description: '32GB DDR5 memory kit designed for modern gaming and productivity PCs.'
         }
     ];
 
     return (
         <main>
-            <h2>Our Products</h2>
+            <h2>Our PC Components</h2>
+            <p>Explore our selection of computer hardware.</p>
 
             <div className="product-list">
                 {products.map(product => (
                     <ProductCard
                         key={product.id}
-                        {...product}
+                        name={product.name}
+                        price={product.price}
+                        image={product.image}
+                        description={product.description}
                     />
                 ))}
             </div>

@@ -42,4 +42,30 @@ footer {
     padding: 20px;
     background-color: #222;
     color: white;
+    margin-top: auto;
 }
+
+/* Added to fix footer jumping issue */
+html, body, #root {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+}
+
+.app-container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+footer {
+    margin-top: auto;
+}
+/* End of fix code */
