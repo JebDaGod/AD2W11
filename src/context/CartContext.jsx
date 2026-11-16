@@ -37,7 +37,13 @@ export function CartProvider({ children }) {
 
     function removeFromCart(productId) {
         setCartItems(previousItems =>
-            previousItems.filter(item => item.id !== productId)
+            previousItems
+                .map(item =>
+                    item.id === productId
+                        ? { ...item, quantity: item.quantity - 1 }
+                        : item
+                )
+                .filter(item => item.quantity > 0)
         );
     }
 
