@@ -45,6 +45,7 @@ function HomePage() {
                         return (
                             <ProductCard
                                 key={product.id}
+                                id={product.id}
                                 name={product.displayName || product.name}
                                 price={
                                     price
