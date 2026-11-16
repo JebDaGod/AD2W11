@@ -52,7 +52,7 @@ function HomePage() {
                                         ? new Intl.NumberFormat('en-US', {
                                             style: 'currency',
                                             currency: 'USD'
-                                        }).format(price.price * 1.30)
+                                        }).format(price.price * 1.30) /* Average conversion rate from GBP to USD as of 11/15 */
                                         : 'Price unavailable'
                                 }
                                 /* price 

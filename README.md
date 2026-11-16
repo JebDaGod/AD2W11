@@ -1,6 +1,8 @@
 AD2W11
 Jacob Summers
 
+ComponentCorner: React based PC component shopping app. Users can browse computer hardware and manage a shopping cart
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
@@ -20,3 +22,45 @@ If you are developing a production application, we recommend using TypeScript wi
 
 APIs used
 VantaSpec API: has CPUs GPUs motherboard RAM SSDs Power supplies cases and cooler with images prices and availability
+productService.js handles API requests
+Used Vite devlopment proxy to forward API request to VantaSpec during local. Vercel handles API in a rewrite and allow React to talk with external API
+
+Product prices are converted from GBP to USD using an approximate conversion multiplier of 1.30.
+
+Website link: https://ad2w11-git-main-jeb-site.vercel.app/
+
+Technology used:
+- React
+- JavaScript
+- Vite
+- React Router
+- CSS
+- Context API
+- localStorage
+- VantaSpec API
+- Vitest
+- React Testing Library
+- Vercel
+
+Installation:
+git clone https://github.com/JebDaGod/AD2W11
+cd AD2W11
+npm install
+npm run dev
+Open local URL
+
+Known issues
+Product availability and displayed information may not work because of VantaSpec API
+Some products mya not have available images or prices
+Currency conversion uses approxiamte hard coded formula (x1.3)
+Shopping cart is local stored, no account or remote database
+Can't actually purchase 
+
+Future plans
+Add product searching
+Category filtering
+Better details and comparison feature (HARD MAYBE ON THE LATTER)
+Ability to increase decrease from cart with typable entry
+Improve availbaility and pricing info
+Add checkout interface
+Expand testing
